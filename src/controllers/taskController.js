@@ -1,43 +1,83 @@
 import Task from "../models/Task";
+import taskRequest from "../requests/taskRequest";
+import checkTaskExists from "../utils/checkTaskExists";
+import validate from "../utils/validate";
 
 export const taskController = {
-	getTasks: async (req, res) => {
-		const tasks = await Task.find();
+	getTasks: async (req, res, next) => {
+		try {
+			const tasks = await Task.find({ user_id: "63ed10aed1a621837725cfc4" });
 
-		res.json(tasks);
+			res.json(tasks);
+		} catch (error) {
+			next(error);
+		}
 	},
 
-	getTask: async (req, res) => {
-		const taskId = req.params.id;
+	getTask: async (req, res, next) => {
+		try {
+			const taskId = req.params.id;
 
-		const task = await Task.findById(taskId);
+			const foundTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
 
-		res.json(task);
+			res.json(foundTask);
+		} catch (error) {
+			next(error);
+		}
 	},
 
-	createTask: async (req, res) => {
-		const { title, description } = req.body;
+	createTask: async (req, res, next) => {
+		try {
+			const task = req.body;
 
-		const newTask = new Task({ title, description, user_id: "63ed10aed1a621837725cfc4" });
-		const savedTask = await newTask.save();
+			validate(taskRequest, task);
 
-		res.status(201).json(savedTask);
+			const newTask = new Task({
+				title: task.title,
+				description: task.description,
+				user_id: "63ed10aed1a621837725cfc4",
+			});
+
+			await newTask.save();
+
+			res.status(201).json(newTask);
+		} catch (error) {
+			next(error);
+		}
 	},
 
-	editTask: async (req, res) => {
-		const taskId = req.params.id;
-		const { title, description, completed } = req.body;
+	editTask: async (req, res, next) => {
+		try {
+			const taskId = req.params.id;
+			const task = req.body;
 
-		const editedTask = await Task.findByIdAndUpdate(taskId, { title, description, completed }, { new: true });
+			validate(taskRequest, task);
 
-		res.json(editedTask);
+			const editedTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
+
+			editedTask.title = task.title;
+			editedTask.description = task.description;
+			editedTask.completed = task.completed;
+
+			await editedTask.save();
+
+			res.json(editedTask);
+		} catch (error) {
+			next(error);
+		}
 	},
 
-	deleteTask: async (req, res) => {
-		const taskId = req.params.id;
+	deleteTask: async (req, res, next) => {
+		try {
+			const taskId = req.params.id;
 
-		const deletedTask = await Task.findByIdAndDelete(taskId);
+			const deletedTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
 
-		res.json(deletedTask);
+			await deletedTask.delete();
+
+			res.json(deletedTask);
+		} catch (error) {
+			next(error);
+		}
 	},
 };
