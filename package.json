@@ -1,0 +1,25 @@
+{
+	"name": "vue-tasks-api",
+	"version": "1.0.0",
+	"description": "Simple API for vue-tasks web app.",
+	"main": "src/index.js",
+	"scripts": {
+		"dev": "nodemon src/index.js --exec babel-node"
+	},
+	"author": "GFrancV",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"jsonwebtoken": "^9.0.0",
+		"mongoose": "^6.9.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.20.12",
+		"@babel/node": "^7.20.7",
+		"@babel/preset-env": "^7.20.2",
+		"@babel/register": "^7.18.9",
+		"nodemon": "^2.0.20"
+	}
+}
