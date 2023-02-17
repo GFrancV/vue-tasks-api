@@ -1,3 +1,5 @@
+import { createToken } from "../middleware/authJWT";
+
 import User from "../models/User";
 import userRegisterRequest from "../requests/userRegisterRequest";
 import userRequest from "../requests/userRequest";
@@ -13,7 +15,9 @@ export const authController = {
 
 			const authUser = await check.user.credentials(user);
 
-			res.status(200).json(authUser);
+			const token = createToken(authUser._id);
+
+			res.status(200).json({ token, user: authUser });
 		} catch (error) {
 			next(error);
 		}
@@ -35,7 +39,9 @@ export const authController = {
 
 			await newUser.save();
 
-			res.status(201).json({ _id: newUser._id, name: newUser.name, email: newUser.email });
+			const token = createToken(newUser._id);
+
+			res.status(201).json({ token, user: { _id: newUser._id, name: newUser.name, email: newUser.email } });
 		} catch (error) {
 			next(error);
 		}

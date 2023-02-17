@@ -6,7 +6,7 @@ import validate from "../utils/validate";
 export const taskController = {
 	getTasks: async (req, res, next) => {
 		try {
-			const tasks = await Task.find({ user_id: "63ed10aed1a621837725cfc4" });
+			const tasks = await Task.find({ user_id: req.userId });
 
 			res.json(tasks);
 		} catch (error) {
@@ -18,7 +18,7 @@ export const taskController = {
 		try {
 			const taskId = req.params.id;
 
-			const foundTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
+			const foundTask = await checks.task.exist(taskId, req.userId);
 
 			res.json(foundTask);
 		} catch (error) {
@@ -35,7 +35,7 @@ export const taskController = {
 			const newTask = new Task({
 				title: task.title,
 				description: task.description,
-				user_id: "63ed10aed1a621837725cfc4",
+				user_id: req.userId,
 			});
 
 			await newTask.save();
@@ -53,7 +53,7 @@ export const taskController = {
 
 			validate(taskRequest, task);
 
-			const editedTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
+			const editedTask = await checks.task.exist(taskId, req.userId);
 
 			editedTask.title = task.title;
 			editedTask.description = task.description;
@@ -71,7 +71,7 @@ export const taskController = {
 		try {
 			const taskId = req.params.id;
 
-			const deletedTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
+			const deletedTask = await checks.task.exist(taskId, req.userId);
 
 			await deletedTask.delete();
 

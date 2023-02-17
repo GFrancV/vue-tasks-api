@@ -5,6 +5,7 @@ import errorHandler from "./middleware/errorHandler";
 import indexRoutes from "./router/index.routes";
 import authRoutes from "./router/auth.routes";
 import apiRoutes from "./router/api.routes";
+import { verifyToken } from "./middleware/authJWT";
 
 connectionDB();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 
 app.use(indexRoutes);
 app.use(authRoutes);
-app.use("/api/", apiRoutes);
+app.use("/api/", verifyToken, apiRoutes);
 
 app.use((req, res) => {
 	throw { statusCode: 404, message: "Endpoint not found" };
