@@ -1,6 +1,6 @@
 import Task from "../models/Task";
 import taskRequest from "../requests/taskRequest";
-import checkTaskExists from "../utils/checkTaskExists";
+import checks from "../utils/checks";
 import validate from "../utils/validate";
 
 export const taskController = {
@@ -18,7 +18,7 @@ export const taskController = {
 		try {
 			const taskId = req.params.id;
 
-			const foundTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
+			const foundTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
 
 			res.json(foundTask);
 		} catch (error) {
@@ -53,7 +53,7 @@ export const taskController = {
 
 			validate(taskRequest, task);
 
-			const editedTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
+			const editedTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
 
 			editedTask.title = task.title;
 			editedTask.description = task.description;
@@ -71,7 +71,7 @@ export const taskController = {
 		try {
 			const taskId = req.params.id;
 
-			const deletedTask = await checkTaskExists(taskId, "63ed10aed1a621837725cfc4");
+			const deletedTask = await checks.task.exist(taskId, "63ed10aed1a621837725cfc4");
 
 			await deletedTask.delete();
 
