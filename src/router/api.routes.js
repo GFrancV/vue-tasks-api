@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { taskController } from "../controllers/taskController";
-import validate from "../utils/validate";
 
 const router = Router();
 
