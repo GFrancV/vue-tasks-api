@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+
 import connectionDB from "./database/db";
 import errorHandler from "./middleware/errorHandler";
 
@@ -11,6 +13,7 @@ connectionDB();
 
 const app = express();
 
+app.use(cors({ origin: process.env.ALLOW_CORS_URL, credentials: true }));
 app.use(express.json());
 
 app.use(indexRoutes);

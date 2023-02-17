@@ -10,7 +10,6 @@ const verifyToken = (req, res, next) => {
 	if (typeof bearerHeader === "undefined") throw { statusCode: 401, message: "Unauthorized" };
 
 	const token = bearerHeader.split(" ")[1];
-
 	if (!token) throw { statusCode: 401, message: "Unauthorized" };
 
 	const decodeToken = jwt.verify(token, process.env.SECRET_KEY);
