@@ -3,7 +3,7 @@ import taskRequest from "../requests/taskRequest";
 import checks from "../utils/checks";
 import validate from "../utils/validate";
 
-export const taskController = {
+export default {
 	getTasks: async (req, res, next) => {
 		try {
 			const tasks = await Task.find({ user_id: req.userId });
