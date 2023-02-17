@@ -1,5 +1,5 @@
 import "dotenv/config";
 import app from "./app";
 
-app.listen(process.env.APP_PORT);
-console.log(`Listen on port ${process.env.APP_PORT}`);
+app.listen(process.env.PORT);
+console.log(`Listen on port ${process.env.PORT}`);
