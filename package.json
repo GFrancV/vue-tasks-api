@@ -1,8 +1,12 @@
 {
 	"name": "vue-tasks-api",
 	"version": "1.0.0",
-	"description": "Simple API for vue-tasks web app.",
-	"main": "src/index-compiled.js",
+	"description": "Simple Rest API for vue-tasks web app.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GFrancV/vue-tasks-api"
+	},
+	"main": "src/index.js",
 	"scripts": {
 		"start": "babel-node src/index.js",
 		"dev": "nodemon src/index.js --exec babel-node"
