@@ -12,13 +12,14 @@ import { verifyToken } from "./middleware/authJWT";
 connectionDB();
 
 const app = express();
+const urlPrefix = process.env.URL_PREFIX || '/';
 
 app.use(cors({ origin: process.env.ALLOW_CORS_URL, credentials: true }));
 app.use(express.json());
 
-app.use(indexRoutes);
-app.use(authRoutes);
-app.use("/api/", verifyToken, apiRoutes);
+app.use(urlPrefix,indexRoutes);
+app.use(urlPrefix,authRoutes);
+app.use(`${urlPrefix}api/`, verifyToken, apiRoutes);
 
 app.use((req, res) => {
 	throw { statusCode: 404, message: "Endpoint not found" };
